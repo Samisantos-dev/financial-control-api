@@ -20,7 +20,6 @@ public class CategoriaController {
         this.categoriaService = categoriaService;
     }
 
-
     @PostMapping
     public Categoria CadastrarCategoria(@RequestBody Categoria categoria) {
         return categoriaService.CadastrarCategoria(categoria);
