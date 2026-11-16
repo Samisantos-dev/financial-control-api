@@ -19,7 +19,7 @@ public class CategoriaService {
         this.categoriaRepository = categoriaRepository;
     }
 
-    public Categoria salvarCategoria(Categoria categoria) {
+    public Categoria CadastrarCategoria(Categoria categoria) {
 
         usuarioService.listarUsuarioPorId(categoria.getUsuario().getId());
 

@@ -1,6 +1,9 @@
 package com.example.sistemacontrolefinanceiro.controller;
 
+import com.example.sistemacontrolefinanceiro.model.Categoria;
 import com.example.sistemacontrolefinanceiro.service.CategoriaService;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -15,5 +18,12 @@ public class CategoriaController {
 
     public CategoriaController(CategoriaService categoriaService) {
         this.categoriaService = categoriaService;
+    }
+
+
+    @PostMapping
+    public Categoria CadastrarCategoria(@RequestBody Categoria categoria) {
+        return categoriaService.CadastrarCategoria(categoria);
+
     }
 }
