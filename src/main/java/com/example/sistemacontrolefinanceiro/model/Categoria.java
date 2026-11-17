@@ -1,5 +1,6 @@
 package com.example.sistemacontrolefinanceiro.model;
 
+import com.example.sistemacontrolefinanceiro.enums.CategoriaEnum;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -17,7 +18,9 @@ public class Categoria {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String nome;
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    private CategoriaEnum nome;
     private String descricao;
 
     @ManyToOne
