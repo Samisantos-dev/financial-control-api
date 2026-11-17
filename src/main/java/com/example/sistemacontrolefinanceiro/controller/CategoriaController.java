@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
 // Não tem regra de negócio, só repassa o trabalho para o Categoria.
 
 @RestController
-@RequestMapping
+@RequestMapping ("/Categoria")
 public class CategoriaController {
 
     private final CategoriaService categoriaService;

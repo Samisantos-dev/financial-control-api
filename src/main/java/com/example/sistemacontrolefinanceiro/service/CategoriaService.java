@@ -6,6 +6,7 @@ import com.example.sistemacontrolefinanceiro.model.Categoria;
 import com.example.sistemacontrolefinanceiro.repository.CategoriaRepository;
 import org.springframework.stereotype.Service;
 
+
 @Service
 public class CategoriaService {
 
@@ -13,8 +14,7 @@ public class CategoriaService {
     private UsuarioService usuarioService;
 
 
-
-    public CategoriaService(CategoriaRepository categoriaRepository, UsuarioService usuarioService, CategoriaEnum categoriaEnum) {
+    public CategoriaService(CategoriaRepository categoriaRepository, UsuarioService usuarioService) {
         this.usuarioService = usuarioService;
         this.categoriaRepository = categoriaRepository;
     }

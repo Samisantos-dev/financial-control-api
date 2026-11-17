@@ -11,6 +11,5 @@ import java.util.List;
 public interface DespesaRepository extends JpaRepository<Despesa, Long> {
 
     List<Despesa> findByUsuarioId(Long usuarioId);
-    List<Despesa> findByUsuarioIdAndDataInicialBetween(Long usuarioId, LocalDate inicio, LocalDate fim);
-
+    List<Despesa> findByUsuarioIdAndDataBetween(Long usuarioId, LocalDate inicio, LocalDate fim);
 }

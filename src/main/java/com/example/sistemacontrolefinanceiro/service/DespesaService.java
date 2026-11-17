@@ -77,9 +77,7 @@ public class DespesaService {
         LocalDate inicio = LocalDate.of(ano, mes, 1);
         LocalDate fim = inicio.withDayOfMonth(inicio.lengthOfMonth());
 
-        List<Despesa> despesas = despesaRepository.findByUsuarioIdAndDataInicialBetween(usuarioId, inicio, fim);
-
-        BigDecimal total = BigDecimal.ZERO;
+        List<Despesa> despesas = despesaRepository.findByUsuarioIdAndDataBetween(usuarioId, inicio, fim);BigDecimal total = BigDecimal.ZERO;
         for (Despesa despesa : despesas) {
             total = total.add(despesa.getValor());
         }
