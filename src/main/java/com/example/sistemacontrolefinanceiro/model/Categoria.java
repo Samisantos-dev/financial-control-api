@@ -19,7 +19,7 @@ public class Categoria {
     private Long id;
 
     @Enumerated(EnumType.STRING)
-    @Column(nullable = false)
+    @Column(name = "categoria",nullable = false)
     private CategoriaEnum nome;
     private String descricao;
 

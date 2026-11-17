@@ -28,19 +28,14 @@ public class CategoriaService {
 
         categoria.setUsuario(usuario);
 
-        String categoriaNome = categoria.getNome();
+        CategoriaEnum categoriaNome = categoria.getNome();
 
-        try {
-            CategoriaEnum categoriaEnum = Enum.valueOf(
-                    CategoriaEnum.class,
-                    categoriaNome.trim().toUpperCase()
-            );
-
-        } catch (IllegalArgumentException e) {
+        if (categoriaNome == null) {
             throw new CategoriaNaoExisteException("Categoria não encontrada!");
         }
 
         return categoriaRepository.save(categoria);
     }
-}
+    }
+
 
