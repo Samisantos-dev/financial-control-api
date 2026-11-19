@@ -35,4 +35,10 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
         public ResponseEntity<String> tratarDespesaNaoEncontrada(DespesaNaoEncontradaException e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
         }
+
+        @ExceptionHandler(IdNaoExisteException.class)
+        public ResponseEntity<String> tratarIdNaoExiste(IdNaoExisteException e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                    .body(e.getMessage());
+        }
     }
