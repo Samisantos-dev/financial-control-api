@@ -36,12 +36,12 @@ public class UsuarioController {
 
     // PUT /usuarios/atualizar
     //Controle de saida e entrada de dados
-    @PutMapping("/atualizar")
-    public UsuarioResponseDTO atualizarUsuario(@RequestBody UsuarioRequestDTO dto) {
-       Usuario usuario = usuarioMapper.toEntity(dto);
-       Usuario atualizado = usuarioService.atualizarUsuario(usuario);
+    @PutMapping("/atualizar/{id}")
+    public UsuarioResponseDTO atualizarUsuario(@PathVariable Long id, @RequestBody UsuarioRequestDTO dto) {
+        Usuario usuario = usuarioMapper.toEntity(dto);
+        Usuario atualizado = usuarioService.atualizarUsuario(id, usuario);
 
-       return usuarioMapper.toResponse(atualizado);
+        return usuarioMapper.toResponse(atualizado);
     }
 
     // POST /usuarios/login
@@ -56,7 +56,7 @@ public class UsuarioController {
 
     // GET /usuarios/buscar/{id}
     //Controle de saida e entrada de dados
-    @GetMapping("/buscar/{id}")
+    @GetMapping("/{id}")
     public UsuarioResponseDTO buscarUsuarioPorId(@PathVariable Long id) {
         Usuario usuario = usuarioService.listarUsuarioPorId(id);
         return usuarioMapper.toResponse(usuario);

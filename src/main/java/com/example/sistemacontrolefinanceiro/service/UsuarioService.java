@@ -6,6 +6,7 @@ import com.example.sistemacontrolefinanceiro.exception.UsuarioNaoEncontradoExcep
 import com.example.sistemacontrolefinanceiro.mapper.UsuarioMapper;
 import com.example.sistemacontrolefinanceiro.model.Usuario;
 import com.example.sistemacontrolefinanceiro.repository.UsuarioRepository;
+import jakarta.persistence.Id;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
@@ -39,20 +40,19 @@ public class UsuarioService {
         return usuarioRepository.save(usuario);
     }
 
-    public Usuario atualizarUsuario(Usuario usuario) {
-        boolean usuarioExiste = usuarioRepository.existsById(usuario.getId());
+    public Usuario atualizarUsuario(Long id, Usuario usuario) {
+        boolean usuarioExiste = usuarioRepository.existsById(id);
         if (!usuarioExiste) {
-            throw new UsuarioNaoEncontradoException("Usuário não encontrado!");
+            throw new UsuarioNaoEncontradoException("ID não encontrado!");
         }
+        usuario.setId(id);
 
-        boolean emailPertenceAOutroUsuario = usuarioRepository.existsByEmailAndIdNot(usuario.getEmail(), usuario.getId());
-        if (emailPertenceAOutroUsuario) {
-            throw new UsuarioJaExisteException("E-mail já pertence a outro usuário!");
-        }
         return usuarioRepository.save(usuario);
     }
 
+    // Criar um boolean para validar a entrada de login
     public Usuario loginUsuario(Usuario usuario) {
+
         Usuario usuarioEncontrado = usuarioRepository.findByEmail(usuario.getEmail());
         if (usuarioEncontrado == null) {
             throw new UsuarioNaoEncontradoException("Usuário não encontrado!");
