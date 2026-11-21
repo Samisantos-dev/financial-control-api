@@ -6,18 +6,25 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.math.BigDecimal;
+import java.time.LocalDate;
+
 @Getter
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-@Entity
 
-public class Categoria {
+@Entity
+public class Receita {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private String nome;
+
+
+    private BigDecimal valor;
+    private String descricao;
+    private LocalDate data;
 
     @ManyToOne
     @JoinColumn(name = "usuario_id")
