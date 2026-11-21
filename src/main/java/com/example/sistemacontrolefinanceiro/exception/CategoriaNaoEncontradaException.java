@@ -4,10 +4,10 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
 @ResponseStatus(value = HttpStatus.BAD_REQUEST)
-public class CategoriaNaoExisteException extends RuntimeException {
+public class CategoriaNaoEncontradaException extends RuntimeException {
 
 
-    public CategoriaNaoExisteException(String message) {
+    public CategoriaNaoEncontradaException(String message) {
         super("Categoria nao existe");
     }
 }

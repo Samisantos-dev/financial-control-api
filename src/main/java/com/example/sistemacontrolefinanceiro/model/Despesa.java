@@ -23,9 +23,13 @@ public class Despesa {
     private BigDecimal valor;
     private String descricao;
     private LocalDate data;
-    private Long usuarioId;
     @Enumerated(EnumType.STRING)
     private CategoriaEnum categoriaEnum;
+    @ManyToOne
+    @JoinColumn(name = "usuario_id")
+    private Usuario usuario;
+
+
 
 
 }

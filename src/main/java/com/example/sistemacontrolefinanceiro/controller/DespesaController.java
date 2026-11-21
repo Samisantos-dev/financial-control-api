@@ -1,5 +1,10 @@
 package com.example.sistemacontrolefinanceiro.controller;
 
+import com.example.sistemacontrolefinanceiro.dto.DespesaRequestDTO;
+import com.example.sistemacontrolefinanceiro.dto.DespesaResponseDTO;
+import com.example.sistemacontrolefinanceiro.dto.UsuarioRequestDTO;
+import com.example.sistemacontrolefinanceiro.dto.UsuarioResponseDTO;
+import com.example.sistemacontrolefinanceiro.mapper.DespesaMapper;
 import com.example.sistemacontrolefinanceiro.model.Despesa;
 import com.example.sistemacontrolefinanceiro.service.DespesaService;
 import org.springframework.web.bind.annotation.*;
@@ -14,26 +19,39 @@ import java.util.List;
 public class DespesaController {
 
     private final DespesaService despesaService;
+    private final DespesaMapper despesaMapper;
 
-    public DespesaController(DespesaService despesaService) {
+    public DespesaController(DespesaService despesaService ,  DespesaMapper despesaMapper) {
         this.despesaService = despesaService;
+        this.despesaMapper = despesaMapper;
     }
 
-    @PostMapping
-    public Despesa salvar(@RequestBody Despesa despesa) {
-        return despesaService.salvarDespesa(despesa);
+    @PostMapping("/salvar")
+    public DespesaResponseDTO salvar(@RequestBody DespesaRequestDTO dto) {
+        Despesa despesa = despesaMapper.toEntity(dto);
+        Despesa salvo = despesaService.salvarDespesa( despesa );
+        return despesaMapper.toResponse(salvo);
+
     }
-    @PutMapping
-    public Despesa atualizar(@RequestBody Despesa despesa) {
-        return despesaService.atualizarDespesa(despesa);
+    @PutMapping("/atualizar/{id}")
+    public DespesaResponseDTO atualizar(@PathVariable Long id, @RequestBody DespesaRequestDTO dto) {
+        Despesa despesa = despesaMapper.toEntity(dto);
+
+        Despesa atualizada = despesaService.atualizarDespesa(despesa);
+
+        return despesaMapper.toResponse(atualizada);
     }
-    @DeleteMapping
+    @DeleteMapping("/remover")
     public void remover(@RequestBody Despesa despesa) {
         despesaService.remover(despesa);
     }
 
-    @GetMapping("/usuarios/{usuarioId}/despesas")
+    @GetMapping("/usuarios/{usuarioId}/")
     public List<Despesa> listar(@PathVariable Long usuarioId) {
         return despesaService.listarDespesas(usuarioId);
+    }
+    @GetMapping("/despesas/{id}")
+    public Despesa buscarDespesaPorId(@PathVariable Long id) {
+        return despesaService.buscarPorId(id);
     }
 }

@@ -26,8 +26,8 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
                     .body(e.getMessage());
         }
 
-        @ExceptionHandler(CategoriaNaoExisteException.class)
-        public ResponseEntity<String> tratarCategoriaNaoExiste(CategoriaNaoExisteException e) {
+        @ExceptionHandler(CategoriaNaoEncontradaException.class)
+        public ResponseEntity<String> tratarCategoriaNaoExiste(CategoriaNaoEncontradaException e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST)
                     .body(e.getMessage());
         }

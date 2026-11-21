@@ -26,10 +26,12 @@ public class DespesaService {
     }
 
     public Despesa salvarDespesa(Despesa despesa) {
-        if (despesa.getUsuarioId() == null) {
+
+        usuarioService.listarUsuarioPorId(despesa.getUsuario().getId());
+
+        if (despesa.getUsuario() == null || despesa.getUsuario().getId() == null) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Usuario da despesa deve ser informado");
         }
-        usuarioService.listarUsuarioPorId(despesa.getUsuarioId());
 
         if (despesa.getValor() == null || despesa.getValor().compareTo(BigDecimal.ZERO) <= 0) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Valor da despesa deve ser maior que zero");
@@ -38,15 +40,18 @@ public class DespesaService {
     }
 
     public Despesa atualizarDespesa(Despesa despesa) {
-        if (despesa.getId() == null || despesa.getUsuarioId() == null) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Id da despesa e do usuario devem ser informados");
+
+        usuarioService.listarUsuarioPorId(despesa.getUsuario().getId());
+        if (despesa.getId() == null ) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Id da despesa precisa ser informada");
         }
-        usuarioService.listarUsuarioPorId(despesa.getUsuarioId());
+
 
         boolean despesaExiste = despesaRepository.existsById(despesa.getId());
         if (!despesaExiste) {
             throw new DespesaNaoEncontradaException("Despesa não encontrada!");
         }
+
         return despesaRepository.save(despesa);
     }
 
@@ -83,4 +88,5 @@ public class DespesaService {
         }
         return total;
     }
+
 }

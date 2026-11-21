@@ -38,12 +38,15 @@ public class UsuarioController {
     //Controle de saida e entrada de dados
     @PutMapping("/atualizar/{id}")
     public UsuarioResponseDTO atualizarUsuario(@PathVariable Long id, @RequestBody UsuarioRequestDTO dto) {
+
         Usuario usuario = usuarioMapper.toEntity(dto);
+        usuario.setId(id);
+        //Essa linha coloca o ID recebido da URL dentro do objeto Usuario.
+
         Usuario atualizado = usuarioService.atualizarUsuario(id, usuario);
 
         return usuarioMapper.toResponse(atualizado);
     }
-
     // POST /usuarios/login
     //Controle de saida e entrada de dados
     @PostMapping("/login")
