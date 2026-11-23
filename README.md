@@ -1,99 +1,134 @@
-# 💰 Sistema de Controle Financeiro
+# 💰 Financial Management System
 
-API REST desenvolvida em Java com Spring Boot para gerenciamento de usuários, despesas e categorias, com o objetivo de facilitar a organização e o controle financeiro.
+A RESTful API developed with **Java and Spring Boot** to help users manage their personal finances by tracking monthly income and expenses.
 
-## 🚀 Tecnologias utilizadas
+The system allows users to register their income (money earned) and expenses (money spent), providing a structured way to organize and monitor their financial activities.
 
-- **Java** — linguagem de programação.
-- **Spring Boot** — desenvolvimento da API REST.
-- **Spring Data JPA** — persistência e acesso aos dados.
-- **PostgreSQL** — banco de dados relacional.
-- **Maven** — gerenciamento de dependências.
-- **Postman** — testes dos endpoints.
+## 🚀 Technologies
 
-## 📌 Funcionalidades
+- **Java** – Main programming language.
+- **Spring Boot** – Backend application development.
+- **Spring Data JPA** – Database persistence and management.
+- **Hibernate** – Object-relational mapping (ORM).
+- **PostgreSQL** – Relational database.
+- **Maven** – Dependency management and project build.
+- **REST API** – HTTP communication.
 
-### 👤 Usuários
-- Cadastro de usuários.
-- Atualização de dados.
-- Busca de usuário por ID.
-- Login com validação de e-mail e senha.
-- Exclusão de usuários.
-- Verificação de e-mails já cadastrados.
+## ✨ Features
 
-### 💸 Despesas
-- Cadastro de despesas vinculadas a usuários.
-- Listagem de despesas por usuário.
-- Atualização de despesas.
-- Exclusão de despesas.
-- Validação do valor da despesa.
-- Associação de despesas a categorias.
+### 👤 User Management
+- User registration.
+- User authentication (login).
+- User information management.
+- Data validation.
 
-### 🏷️ Categorias
-- Gerenciamento de categorias de despesas.
-- Organização das despesas por categoria.
+### 💵 Income Management
+- Register monthly income.
+- Store the amount of money earned.
+- Associate income records with their respective users.
+- Organize financial income information.
 
-## 🏗️ Arquitetura do projeto
+### 💳 Expense Management
+- Register expenses.
+- Update existing expenses.
+- Delete expenses.
+- List expenses associated with a user.
+- Organize expenses by financial category.
 
-O projeto utiliza uma estrutura em camadas para separar as responsabilidades e facilitar a manutenção do código.
+### 🗂️ Financial Categories
+- Register and manage expense categories.
+- Associate categories with expenses.
+- Organize financial transactions.
 
-- **Controller:** recebe as requisições HTTP e disponibiliza os endpoints da API.
-- **Service:** concentra as regras de negócio e as validações.
-- **Repository:** realiza o acesso e a persistência dos dados utilizando Spring Data JPA.
-- **Entity/Model:** representa as entidades do sistema e seus relacionamentos.
-- **DTO (Data Transfer Object):** controla os dados recebidos e enviados pela API.
-- **Mapper:** realiza a conversão entre DTOs e entidades.
-- **Exception:** organiza o tratamento de erros e situações excepcionais.
+## 🏗️ Project Architecture
 
-## 🔧 Como executar o projeto
+The application follows a layered architecture, separating responsibilities to improve code organization, maintainability, and scalability.
 
-### Pré-requisitos
+| Layer | Responsibility |
+|---|---|
+| Controller | Handles HTTP requests and API endpoints. |
+| Service | Implements business rules and application logic. |
+| Repository | Manages database operations. |
+| Model | Represents the application's entities. |
+| DTO | Transfers data between the client and the application. |
+| Mapper | Converts DTOs into entities and entities into DTOs. |
+| Exception | Handles application errors and custom exceptions. |
 
-- Java instalado.
-- Maven instalado ou utilização do Maven Wrapper.
-- PostgreSQL instalado e em execução.
-- Git instalado.
+## 🗄️ Database and Entity Relationships
 
-### 1. Clone o repositório
+The application uses **PostgreSQL** as its relational database and **JPA/Hibernate** for entity mapping and persistence.
+
+Main entities:
+
+- **User (Usuario):** Stores user information and account details.
+- **Income (Receita):** Stores the user's monthly income.
+- **Expense (Despesa):** Stores the user's financial expenses.
+- **Category (Categoria):** Organizes expenses into different categories.
+
+The entities are connected through JPA relationships, allowing financial records to be associated with their respective users and categories.
+
+## 📦 Data Transfer Objects (DTOs)
+
+The project uses DTOs to control the data exchanged between the client and the API.
+
+- **Request DTOs:** Receive information sent by the client.
+- **Response DTOs:** Return structured information without exposing sensitive data, such as user passwords.
+
+The Mapper layer is responsible for converting DTOs into entities and entities into DTOs.
+
+## ⚙️ How to Run the Project
+
+### Prerequisites
+
+- Java JDK
+- Maven
+- PostgreSQL
+- Git
+
+### 1. Clone the repository
 
 ```bash
-git clone https://github.com/samisantts/SistemaDeControleFinanceiro.git
+git clone https://github.com/Samisantos-dev/SistemaDeControleFinanceiro.git
 ```
 
-### 2. Entre na pasta do projeto
+### 2. Navigate to the project directory
 
 ```bash
 cd SistemaDeControleFinanceiro
 ```
 
-### 3. Configure o banco de dados
+### 3. Configure the database
 
-Configure as credenciais e a conexão com o PostgreSQL no arquivo `application.properties`, de acordo com o banco criado para o projeto.
+Create a PostgreSQL database and configure the connection credentials in `application.properties`.
 
-### 4. Execute a aplicação
-
-Com Maven instalado:
+### 4. Run the application
 
 ```bash
 mvn spring-boot:run
 ```
 
-Ou, utilizando o Maven Wrapper no Windows:
+## 🎯 Project Goals
 
-```bash
-mvnw.cmd spring-boot:run
-```
+This project is part of my journey as a Backend Developer, helping me develop practical skills in:
 
-## 🧪 Testes da API
+- Java programming.
+- Spring Boot and REST API development.
+- Object-Oriented Programming (OOP).
+- Relational database modeling.
+- JPA entity relationships.
+- DTO and Mapper implementation.
+- Dependency Injection.
+- Data validation and exception handling.
+- Layered architecture and clean code principles.
 
-Os endpoints podem ser testados utilizando o Postman, enviando requisições HTTP e verificando as respostas da aplicação.
+## 👨‍💻 Author
 
-## 📚 Objetivo do projeto
+**Sami Santos**
 
-Este projeto tem como objetivo consolidar conhecimentos em desenvolvimento backend com Java e Spring Boot, aplicando conceitos de Programação Orientada a Objetos, APIs REST, persistência de dados, injeção de dependência, validações, DTOs, mapeamento de objetos e tratamento de exceções.
+Backend Developer in progress, continuously learning and building projects with Java and Spring Boot.
 
-## 👨‍💻 Autor
+- GitHub: [@Samisantos-dev](https://github.com/Samisantos-dev)
 
-**Sami Gonçalves Santos**
+---
 
-- GitHub: [@samisantts](https://github.com/samisantts)
+⭐ Feel free to explore the project and follow my development journey!
