@@ -26,11 +26,6 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
                     .body(e.getMessage());
         }
 
-        @ExceptionHandler(CategoriaNaoEncontradaException.class)
-        public ResponseEntity<String> tratarCategoriaNaoExiste(CategoriaNaoEncontradaException e) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-                    .body(e.getMessage());
-        }
         @ExceptionHandler(DespesaNaoEncontradaException.class)
         public ResponseEntity<String> tratarDespesaNaoEncontrada(DespesaNaoEncontradaException e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());

@@ -7,7 +7,11 @@ import com.example.sistemacontrolefinanceiro.dto.UsuarioResponseDTO;
 import com.example.sistemacontrolefinanceiro.mapper.DespesaMapper;
 import com.example.sistemacontrolefinanceiro.model.Despesa;
 import com.example.sistemacontrolefinanceiro.service.DespesaService;
+import jakarta.validation.Valid;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.math.BigDecimal;
 import java.util.List;
 
 // Controller: recebe as requisições HTTP e devolve as respostas.
@@ -27,15 +31,16 @@ public class DespesaController {
     }
 
     @PostMapping("/salvar")
-    public DespesaResponseDTO salvar(@RequestBody DespesaRequestDTO dto) {
+    public DespesaResponseDTO salvar(@Valid @RequestBody DespesaRequestDTO dto) {
         Despesa despesa = despesaMapper.toEntity(dto);
         Despesa salvo = despesaService.salvarDespesa( despesa );
         return despesaMapper.toResponse(salvo);
 
     }
     @PutMapping("/atualizar/{id}")
-    public DespesaResponseDTO atualizar(@PathVariable Long id, @RequestBody DespesaRequestDTO dto) {
+    public DespesaResponseDTO atualizar(@PathVariable Long id, @Valid @RequestBody DespesaRequestDTO dto) {
         Despesa despesa = despesaMapper.toEntity(dto);
+        despesa.setId(id);
 
         Despesa atualizada = despesaService.atualizarDespesa(despesa);
 
@@ -50,8 +55,10 @@ public class DespesaController {
     public List<Despesa> listar(@PathVariable Long usuarioId) {
         return despesaService.listarDespesas(usuarioId);
     }
+
     @GetMapping("/despesas/{id}")
     public Despesa buscarDespesaPorId(@PathVariable Long id) {
         return despesaService.buscarPorId(id);
     }
 }
+

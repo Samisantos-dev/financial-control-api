@@ -16,7 +16,10 @@ public class DespesaMapper {
         despesa.setDescricao(dto.getDescricao());
         despesa.setValor(dto.getValor());
         despesa.setData(dto.getData());
+        despesa.setDataVencimento(dto.getDataVencimento());
         despesa.setCategoriaEnum(dto.getCategoriaEnum());
+        despesa.setFormaPagamentoEnum(dto.getFormaPagamentoEnum());
+        despesa.setStatusPagamentoEnum(dto.getStatusPagamentoEnum());
 
         Usuario usuario = new Usuario();
         usuario.setId(dto.getUsuarioId());
@@ -30,7 +33,11 @@ public class DespesaMapper {
         resposta.setDescricao(despesa.getDescricao());
         resposta.setValor(despesa.getValor());
         resposta.setData(despesa.getData());
+        resposta.setDataVencimento(despesa.getDataVencimento());
         resposta.setCategoriaEnum(despesa.getCategoriaEnum());
+        resposta.setFormaPagamentoEnum(despesa.getFormaPagamentoEnum());
+        resposta.setStatusPagamentoEnum(despesa.getStatusPagamentoEnum());
+        resposta.setId(despesa.getId());
 
         return resposta;
     }

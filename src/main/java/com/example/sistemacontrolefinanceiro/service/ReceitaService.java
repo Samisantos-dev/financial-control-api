@@ -15,7 +15,7 @@ public class ReceitaService {
     public ReceitaService(ReceitaRepository receitaRepository, UsuarioService usuarioService) {
         this.usuarioService = usuarioService;
         this.receitaRepository = receitaRepository;
-        this.usuarioService = usuarioService;
+
     }
 
     public Receita cadastrarReceita(Receita receita) {

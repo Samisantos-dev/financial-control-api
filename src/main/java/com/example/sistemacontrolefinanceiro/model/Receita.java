@@ -25,7 +25,6 @@ public class Receita {
     private BigDecimal valor;
     private String descricao;
     private LocalDate data;
-
     @ManyToOne
     @JoinColumn(name = "usuario_id")
     private Usuario usuario;

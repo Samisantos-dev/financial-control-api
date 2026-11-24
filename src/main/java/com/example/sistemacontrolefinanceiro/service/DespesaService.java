@@ -8,7 +8,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.math.BigDecimal;
-import java.time.LocalDate;
 import java.util.List;
 
 
@@ -26,8 +25,18 @@ public class DespesaService {
     }
 
     public Despesa salvarDespesa(Despesa despesa) {
+        if (despesa.getUsuario() == null || despesa.getUsuario().getId() == null) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Usuario da despesa deve ser informado");
+        }
 
         usuarioService.listarUsuarioPorId(despesa.getUsuario().getId());
+        return despesaRepository.save(despesa);
+    }
+
+    public Despesa atualizarDespesa(Despesa despesa) {
+        if (despesa.getId() == null ) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Id da despesa precisa ser informada");
+        }
 
         if (despesa.getUsuario() == null || despesa.getUsuario().getId() == null) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Usuario da despesa deve ser informado");
@@ -36,22 +45,13 @@ public class DespesaService {
         if (despesa.getValor() == null || despesa.getValor().compareTo(BigDecimal.ZERO) <= 0) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Valor da despesa deve ser maior que zero");
         }
-        return despesaRepository.save(despesa);
-    }
-
-    public Despesa atualizarDespesa(Despesa despesa) {
-
-        usuarioService.listarUsuarioPorId(despesa.getUsuario().getId());
-        if (despesa.getId() == null ) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Id da despesa precisa ser informada");
-        }
-
 
         boolean despesaExiste = despesaRepository.existsById(despesa.getId());
         if (!despesaExiste) {
             throw new DespesaNaoEncontradaException("Despesa não encontrada!");
         }
 
+        usuarioService.listarUsuarioPorId(despesa.getUsuario().getId());
         return despesaRepository.save(despesa);
     }
 
@@ -75,18 +75,4 @@ public class DespesaService {
         }
         return despesaRepository.findById(id).get();
     }
-
-    public BigDecimal totalDoMes(Long usuarioId, int ano, int mes) {
-        usuarioService.listarUsuarioPorId(usuarioId);
-
-        LocalDate inicio = LocalDate.of(ano, mes, 1);
-        LocalDate fim = inicio.withDayOfMonth(inicio.lengthOfMonth());
-
-        List<Despesa> despesas = despesaRepository.findByUsuarioIdAndDataBetween(usuarioId, inicio, fim);BigDecimal total = BigDecimal.ZERO;
-        for (Despesa despesa : despesas) {
-            total = total.add(despesa.getValor());
-        }
-        return total;
-    }
-
 }
