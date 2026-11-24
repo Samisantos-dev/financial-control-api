@@ -16,8 +16,8 @@ PostgreSQL.
   puro; ainda não há autenticação/autorização com Spring Security nem BCrypt.
 - **Testes:** há apenas um teste de contexto (`contextLoads`).
 - **Pagamento de despesas:** a entidade e os DTOs incluem forma, status e data
-  de vencimento. O status é recebido/mapeado, mas o service ainda não o calcula
-  automaticamente com base no vencimento.
+  de vencimento. O `DespesaService` preserva `PAGO`; para os demais status,
+  calcula `PENDENTE` ou `ATRASADO` conforme a data de vencimento.
 - **Orçamento:** ainda não implementado.
 
 ## Tecnologias
@@ -253,9 +253,13 @@ Exemplo de corpo para criar ou atualizar despesa:
 }
 ```
 
-O campo `statusPagamentoEnum` pode ser omitido. Apesar de `dataVencimento` e
-status existirem no modelo, atualmente o service não calcula automaticamente
-`ATRASADO` quando o vencimento passa.
+O campo `statusPagamentoEnum` pode ser omitido. Se informado como `PAGO`, o
+service preserva esse estado. Nos demais casos, o service define `PENDENTE`
+quando o vencimento é hoje ou futuro e `ATRASADO` quando a data de vencimento
+já passou. Essa regra é aplicada ao criar e atualizar despesas, e também ao
+listar ou buscar despesas, para atualizar o estado quando o tempo passa. Uma
+despesa antiga sem `dataVencimento` não pode ser recalculada; seu status atual
+é mantido.
 
 ### Receitas — `/receita`
 
@@ -319,8 +323,8 @@ O único teste existente atualmente verifica o carregamento do contexto Spring.
 ## Próximos passos sugeridos
 
 1. Implementar hash de senhas com BCrypt e configurar autenticação/autorização.
-2. Definir e implementar a regra automática de status de pagamento baseada em
-   `dataVencimento`.
+2. Adicionar testes para a regra de status de pagamento baseada em
+   `dataVencimento`, incluindo vencimento hoje, futuro e passado.
 3. Completar e testar o fluxo de receitas, incluindo o ID do usuário no request
    e o mapeamento da resposta.
 4. Padronizar rotas e respostas, especialmente remoção de despesas e retorno
