@@ -5,6 +5,8 @@ import com.example.sistemacontrolefinanceiro.dto.UsuarioResponseDTO;
 import com.example.sistemacontrolefinanceiro.mapper.UsuarioMapper;
 import com.example.sistemacontrolefinanceiro.model.Usuario;
 import com.example.sistemacontrolefinanceiro.service.UsuarioService;
+import jakarta.validation.Valid;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 
@@ -27,7 +29,8 @@ public class UsuarioController {
     // POST /usuarios/cadastrar
     //Controle de saida e entrada de dados
     @PostMapping("/cadastrar")
-    public UsuarioResponseDTO cadastrarUsuario(@RequestBody UsuarioRequestDTO dto) {
+    public UsuarioResponseDTO cadastrarUsuario(
+            @Validated(UsuarioRequestDTO.CadastroOuAtualizacao.class) @RequestBody UsuarioRequestDTO dto) {
         Usuario usuario = usuarioMapper.toEntity(dto);
         Usuario salvo = usuarioService.cadastrarUsuario(usuario);
 
@@ -37,7 +40,8 @@ public class UsuarioController {
     // PUT /usuarios/atualizar
     //Controle de saida e entrada de dados
     @PutMapping("/atualizar/{id}")
-    public UsuarioResponseDTO atualizarUsuario(@PathVariable Long id, @RequestBody UsuarioRequestDTO dto) {
+    public UsuarioResponseDTO atualizarUsuario(@PathVariable Long id,
+            @Validated(UsuarioRequestDTO.CadastroOuAtualizacao.class) @RequestBody UsuarioRequestDTO dto) {
 
         Usuario usuario = usuarioMapper.toEntity(dto);
         usuario.setId(id);
@@ -50,7 +54,7 @@ public class UsuarioController {
     // POST /usuarios/login
     //Controle de saida e entrada de dados
     @PostMapping("/login")
-    public UsuarioResponseDTO loginUsuario(@RequestBody UsuarioRequestDTO dto) {
+    public UsuarioResponseDTO loginUsuario(@Valid @RequestBody UsuarioRequestDTO dto) {
         Usuario usuario = usuarioMapper.toEntity(dto);
         Usuario login = usuarioService.loginUsuario(usuario);
 

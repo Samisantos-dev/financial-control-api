@@ -38,4 +38,5 @@ public class DespesaRequestDTO {
 
     @NotNull
     private Long usuarioId;   // novo
+
 }

@@ -1,272 +1,329 @@
-Sistema de Controle Financeiro Pessoal
+# Sistema de Controle Financeiro Pessoal
 
-API REST para controlar receitas e despesas pessoais: quanto entrou, quanto saiu e para onde o dinheiro foi. Projeto de estudo de back-end com Java e Spring Boot, desenvolvido em dupla e construído por etapas.
+API REST de estudo para registrar usuários, despesas e receitas. O projeto está
+em desenvolvimento e usa Java, Spring Boot, Maven, Spring Data JPA e
+PostgreSQL.
 
-Status: em desenvolvimento. O módulo de usuários está funcional; os módulos de despesas e categorias estão em andamento. Veja Estado atual e Próximos passos.
+## Estado atual
 
-Sumário
-Tecnologias
-Arquitetura
-Estrutura de pastas
-Modelo de dados
-Enums
-Endpoints
-Tratamento de erros
-Como executar
-Estado atual
-Próximos passos
-Tecnologias
-Tecnologia	Uso
-Java	Linguagem principal (POO)
-Spring Boot	Framework da API REST
-Spring Data JPA	Persistência e repositories
-PostgreSQL	Banco de dados relacional
-Maven	Gerenciamento de dependências e build
-Lombok	Geração de getters, setters e construtores
-Arquitetura
+- **Usuários:** cadastro, atualização, login, busca por ID e exclusão.
+- **Despesas:** criação, atualização, remoção, consulta por ID, listagem por
+  usuário e cálculo do total por usuário.
+- **Receitas:** somente cadastro.
+- **Categorias:** representadas por `CategoriaEnum`; não há entidade ou
+  controller de categorias.
+- **Segurança:** `SecurityConfig` está vazio. Login compara senhas em texto
+  puro; ainda não há autenticação/autorização com Spring Security nem BCrypt.
+- **Testes:** há apenas um teste de contexto (`contextLoads`).
+- **Pagamento de despesas:** a entidade e os DTOs incluem forma, status e data
+  de vencimento. O status é recebido/mapeado, mas o service ainda não o calcula
+  automaticamente com base no vencimento.
+- **Orçamento:** ainda não implementado.
 
-O projeto separa responsabilidades em camadas:
+## Tecnologias
 
-Requisição HTTP
-│
-▼
-Controller   → recebe a requisição e devolve a resposta (sem regra de negócio)
-│
-▼
-Service     → regras de negócio e validações
-│
-▼
-Repository   → acesso ao banco via Spring Data JPA
-│
-▼
-PostgreSQL
+| Tecnologia | Uso |
+|---|---|
+| Java 21 | Linguagem principal declarada no `pom.xml` |
+| Spring Boot 4.1.1 | Aplicação e API REST |
+| Spring Web | Controllers e endpoints HTTP |
+| Spring Data JPA | Persistência e repositories |
+| Jakarta Validation | Restrições de validação |
+| PostgreSQL | Banco de dados |
+| Maven | Dependências e build |
+| Lombok | Getters, setters e construtores |
+| Spring Boot Test / JUnit | Testes |
 
-Outras peças:
+O `pom.xml` também configura dependências e plugin do Kotlin, embora o código
+da aplicação listado neste documento esteja em Java.
 
-DTOs (dto): definem o que entra e o que sai da API, sem expor as entidades (por exemplo, a senha não volta na resposta do cadastro).
-Mapper (mapper): converte entre entidade e DTO.
-Exceptions (exception): exceções de negócio tratadas em um único GlobalExceptionHandler.
-Injeção de dependência por construtor: o Spring cria as instâncias (por exemplo, o UsuarioRepository) e entrega para quem precisa delas.
-Estrutura de pastas
+## Arquitetura
 
-Pacote base: com.example.sistemacontrolefinanceiro
+O fluxo principal é:
 
+```text
+Requisição HTTP -> Controller -> Service -> Repository -> PostgreSQL
+                       |            |
+                       DTO       regras de negócio
+                       |
+                    Mapper <-> Model/Entity
+```
+
+- **Controller:** recebe parâmetros e corpos HTTP, chama o service e define o
+  formato da resposta.
+- **Service:** concentra operações e regras de negócio, como verificar se o
+  usuário existe antes de associar uma despesa.
+- **Repository:** abstrai operações de banco com `JpaRepository` e consultas
+  derivadas ou JPQL.
+- **Model:** entidades JPA persistidas no banco.
+- **DTO:** formatos específicos de entrada e saída da API; evitam expor
+  diretamente alguns campos das entidades.
+- **Mapper:** converte DTOs em entidades e entidades em DTOs.
+- **Exception:** exceções específicas e tratamento centralizado em
+  `GlobalExceptionHandler`.
+
+## Estrutura do código
+
+Pacote base: `com.example.sistemacontrolefinanceiro`
+
+```text
 src/main/java/com/example/sistemacontrolefinanceiro/
+├── config/
+│   └── SecurityConfig.java
 ├── controller/
-│   ├── UsuarioController.java
 │   ├── DespesaController.java
-│   └── CategoriaController.java
-<<<<<<< HEAD
-=======
-
->>>>>>> 59bc937952c31fb574b48842995a6aeae79bbc8f
-├── service/
-│   ├── UsuarioService.java
-│   ├── DespesaService.java
-│   └── CategoriaService.java
-<<<<<<< HEAD
-├── repository/
-│   ├── UsuarioRepository.java
-│   └── DespesaRepository.java
-=======
-
-├── repository/
-│   ├── UsuarioRepository.java
-│   └── DespesaRepository.java
-
->>>>>>> 59bc937952c31fb574b48842995a6aeae79bbc8f
-├── model/
-│   ├── Usuario.java
-│   ├── Despesa.java
-│   └── Categoria.java
-<<<<<<< HEAD
+│   ├── ReceitaController.java
+│   └── UsuarioController.java
 ├── dto/
+│   ├── DespesaRequestDTO.java
+│   ├── DespesaResponseDTO.java
+│   ├── ReceitaRequestDTO.java
+│   ├── ReceitaResponseDTO.java
 │   ├── UsuarioRequestDTO.java
 │   └── UsuarioResponseDTO.java
-├── mapper/
-│   ├── UsuarioMapper.java
-│   └── DespesaMapper.java
-=======
-
-├── dto/
-│   ├── UsuarioRequestDTO.java
-│   └── UsuarioResponseDTO.java
-
-├── mapper/
-│   ├── UsuarioMapper.java
-│   └── DespesaMapper.java
-
->>>>>>> 59bc937952c31fb574b48842995a6aeae79bbc8f
 ├── enums/
 │   ├── CategoriaEnum.java
-│   ├── StatusPagamentoEnum.java
-│   └── FormaPagamentoEnum.java
-<<<<<<< HEAD
-=======
+│   ├── FormaPagamentoEnum.java
+│   └── StatusPagamentoEnum.java
+├── exception/
+│   ├── DespesaNaoEncontradaException.java
+│   ├── GlobalExceptionHandler.java
+│   ├── IdNaoExisteException.java
+│   ├── SenhaIncorretaException.java
+│   ├── UsuarioJaExisteException.java
+│   └── UsuarioNaoEncontradoException.java
+├── mapper/
+│   ├── DespesaMapper.java
+│   ├── ReceitaMapper.java
+│   └── UsuarioMapper.java
+├── model/
+│   ├── Despesa.java
+│   ├── Receita.java
+│   └── Usuario.java
+├── repository/
+│   ├── DespesaRepository.java
+│   ├── ReceitaRepository.java
+│   └── UsuarioRepository.java
+├── service/
+│   ├── DespesaService.java
+│   ├── ReceitaService.java
+│   └── UsuarioService.java
+└── SistemacontrolefinanceiroApplication.java
 
->>>>>>> 59bc937952c31fb574b48842995a6aeae79bbc8f
-└── exception/
-├── GlobalExceptionHandler.java
-├── UsuarioJaExisteException.java
-├── UsuarioNaoEncontradoException.java
-├── SenhaIncorretaException.java
-├── CategoriaNaoExisteException.java
-└── DespesaNaoEncontradaException.java
-<<<<<<< HEAD
-=======
+src/test/java/com/example/sistemacontrolefinanceiro/
+└── SistemacontrolefinanceiroApplicationTests.java
+```
 
->>>>>>> 59bc937952c31fb574b48842995a6aeae79bbc8f
-Modelo de dados
-Usuario
-Campo	Tipo	Descrição
-id	Long	Chave primária, gerada automaticamente
-nome	String	Nome (pode se repetir)
-email	String	Identificação do usuário; não pode se repetir
-senha	String	Senha do usuário
-Despesa
-Campo	Tipo	Descrição
-id	Long	Chave primária, gerada automaticamente
-valor	BigDecimal	Valor gasto
-descricao	String	Descrição da despesa
-dataInicial	LocalDate	Data inicial
-<<<<<<< HEAD
-=======
-dataFinal	LocalDate	Data final
->>>>>>> 59bc937952c31fb574b48842995a6aeae79bbc8f
-usuarioId	Long	Id do usuário dono da despesa
-categoriaEnum	CategoriaEnum	Categoria (gravada como texto no banco)
-Categoria
-Campo	Tipo	Descrição
-id	Long	Chave primária, gerada automaticamente
-nome	String	Nome da categoria
-descricao	String	Descrição
-usuario	Usuario	Dono da categoria (relação muitos-para-um, coluna usuario_id)
-Relacionamentos
-Um Usuario tem várias Categorias (Categoria.usuario).
-Um Usuario tem várias Despesas (ligação pelo campo Despesa.usuarioId).
-Enums
+## Modelo de dados
 
-Os enums são gravados no banco pelo nome (@Enumerated(EnumType.STRING)), o que evita que dados antigos mudem de significado se a ordem dos valores for alterada.
+### Usuario
 
-Enum	Valores	Situação
-CategoriaEnum	ALIMENTACAO, TRANSPORTE, SAUDE, EDUCACAO, LAZER, MORADIA	Em uso na Despesa
-StatusPagamentoEnum	PENDENTE, PAGO, ATRASADO	Criado, ainda não usado em entidade
-FormaPagamentoEnum	(a definir)	Criado, sem valores
-Endpoints
-Usuários: /usuarios
-Método	Rota	Descrição	Corpo	Resposta
-POST	/usuarios/cadastrar	Cadastra um usuário	UsuarioRequestDTO	UsuarioResponseDTO
-PUT	/usuarios/atualizar	Atualiza um usuário	Usuario	Usuario
-POST	/usuarios/login	Faz login	Usuario (email e senha)	Usuario
-GET	/usuarios/buscar/{id}	Busca usuário por id	—	Usuario
-DELETE	/usuarios/deletar/{id}	Remove um usuário	—	—
+| Campo | Tipo | Observação |
+|---|---|---|
+| `id` | `Long` | Chave primária, gerada pelo banco |
+| `nome` | `String` | `@NotBlank` |
+| `email` | `String` | `@NotBlank` e `@Email` |
+| `senha` | `String` | `@NotBlank`; atualmente armazenada em texto puro |
 
-Exemplo: cadastrar usuário
+### Despesa
 
-http
-POST /usuarios/cadastrar
-Content-Type: application/json
+| Campo | Tipo | Observação |
+|---|---|---|
+| `id` | `Long` | Chave primária, gerada pelo banco |
+| `valor` | `BigDecimal` | Valor da despesa |
+| `descricao` | `String` | Descrição |
+| `data` | `LocalDate` | Data da despesa |
+| `dataVencimento` | `LocalDate` | Data de vencimento |
+| `categoriaEnum` | `CategoriaEnum` | Categoria; persistida como texto |
+| `formaPagamentoEnum` | `FormaPagamentoEnum` | Forma de pagamento; persistida como texto |
+| `statusPagamentoEnum` | `StatusPagamentoEnum` | Status; persistido como texto |
+| `usuario` | `Usuario` | Relação `ManyToOne`, coluna `usuario_id` |
 
+### Receita
+
+| Campo | Tipo | Observação |
+|---|---|---|
+| `id` | `Long` | Chave primária, gerada pelo banco |
+| `valor` | `BigDecimal` | Valor da receita |
+| `descricao` | `String` | Descrição |
+| `data` | `LocalDate` | Data da receita |
+| `usuario` | `Usuario` | Relação `ManyToOne`, coluna `usuario_id` |
+
+### Enums
+
+| Enum | Valores |
+|---|---|
+| `CategoriaEnum` | `ALIMENTACAO`, `TRANSPORTE`, `SAUDE`, `EDUCACAO`, `LAZER`, `MORADIA` |
+| `FormaPagamentoEnum` | `PIX`, `CARTAO_DEBITO`, `CARTAO_CREDITO` |
+| `StatusPagamentoEnum` | `PENDENTE`, `PAGO`, `ATRASADO` |
+
+As enums usadas em `Despesa` têm `@Enumerated(EnumType.STRING)`, portanto o
+banco armazena seus nomes, não suas posições.
+
+## DTOs e validação
+
+### Usuários
+
+`UsuarioRequestDTO` recebe `nome`, `email` e `senha`. `UsuarioResponseDTO`
+retorna `id`, `nome` e `email`, sem a senha.
+
+O controller ativa a validação do request:
+
+- Cadastro e atualização usam o grupo `CadastroOuAtualizacao`; nesse grupo,
+  `nome` é obrigatório.
+- `email` é obrigatório, não pode estar em branco e deve ter formato de e-mail.
+- `senha` é obrigatória e não pode estar em branco.
+- Login valida e-mail e senha, sem exigir `nome`.
+
+`@NotBlank` rejeita `null`, texto vazio e texto composto somente por espaços.
+
+### Despesas
+
+`DespesaRequestDTO` exige:
+
+- `valor` maior que zero;
+- `descricao` não vazia;
+- `data`, `dataVencimento`, `categoriaEnum`, `formaPagamentoEnum` e
+  `usuarioId` informados.
+- `statusPagamentoEnum` é opcional no request.
+
+`DespesaResponseDTO` retorna os dados da despesa, incluindo o ID, vencimento,
+forma e status de pagamento. `DespesaMapper` converte os campos entre DTO e
+entidade.
+
+### Receitas
+
+`ReceitaRequestDTO` contém `id`, `descricao`, `valor` e `data`.
+`ReceitaResponseDTO` contém `descricao`, `valor` e `data`.
+
+**Limitação atual:** `ReceitaMapper` usa `dto.id` tanto como ID da receita
+quanto como ID do usuário associado. Além disso, `toResponse` altera a entidade
+em vez de preencher o DTO de resposta. A associação e a resposta de receita
+precisam ser revistas antes de considerar o fluxo completo.
+
+## Endpoints
+
+A aplicação não declara um prefixo global de API; as rotas abaixo são relativas
+ao host e à porta configurados.
+
+### Usuários — `/usuarios`
+
+| Método | Rota | Operação |
+|---|---|---|
+| `POST` | `/usuarios/cadastrar` | Cadastrar usuário |
+| `PUT` | `/usuarios/atualizar/{id}` | Atualizar usuário |
+| `POST` | `/usuarios/login` | Validar e-mail e senha |
+| `GET` | `/usuarios/{id}` | Buscar usuário por ID |
+| `DELETE` | `/usuarios/deletar/{id}` | Excluir usuário |
+
+Cadastro/atualização recebem `UsuarioRequestDTO`; login recebe e-mail e senha.
+As respostas de cadastro, atualização, login e busca usam
+`UsuarioResponseDTO`.
+
+### Despesas — `/Despesas`
+
+O prefixo atual começa com letra maiúscula; as rotas são sensíveis à
+configuração do servidor e devem ser chamadas exatamente como declaradas.
+
+| Método | Rota | Operação |
+|---|---|---|
+| `POST` | `/Despesas/salvar` | Criar despesa |
+| `PUT` | `/Despesas/atualizar/{id}` | Atualizar despesa |
+| `DELETE` | `/Despesas/remover` | Remover despesa; recebe uma entidade no corpo |
+| `GET` | `/Despesas/usuarios/{usuarioId}/` | Listar despesas do usuário |
+| `GET` | `/Despesas/usuarios/{usuarioId}/total` | Somar despesas do usuário |
+| `GET` | `/Despesas/despesas/{id}` | Buscar despesa por ID |
+
+O total é retornado como `BigDecimal`. A consulta JPQL usa `SUM` e `COALESCE`,
+retornando zero quando o usuário não tem despesas. O service também verifica
+se o usuário existe.
+
+Exemplo de corpo para criar ou atualizar despesa:
+
+```json
 {
-"nome": "Maria Silva",
-"email": "maria@email.com",
-"senha": "minhasenha"
+  "valor": 45.90,
+  "descricao": "Almoço",
+  "data": "2026-11-12",
+  "dataVencimento": "2026-11-20",
+  "categoriaEnum": "ALIMENTACAO",
+  "formaPagamentoEnum": "PIX",
+  "statusPagamentoEnum": "PENDENTE",
+  "usuarioId": 1
 }
+```
 
-Resposta:
+O campo `statusPagamentoEnum` pode ser omitido. Apesar de `dataVencimento` e
+status existirem no modelo, atualmente o service não calcula automaticamente
+`ATRASADO` quando o vencimento passa.
 
-json
-{
-"id": 1,
-"nome": "Maria Silva",
-"email": "maria@email.com"
-}
-Despesas: /Despesas
-Método	Rota	Descrição	Corpo
-POST	/Despesas	Cadastra uma despesa	Despesa
-PUT	/Despesas	Atualiza uma despesa	Despesa
-DELETE	/Despesas	Remove uma despesa	Despesa
-GET	/Despesas/usuarios/{usuarioId}/despesas	Lista as despesas de um usuário	—
+### Receitas — `/receita`
 
-Exemplo: cadastrar despesa
+| Método | Rota | Operação |
+|---|---|---|
+| `POST` | `/receita/salvar` | Cadastrar receita |
 
-http
-POST /Despesas
-Content-Type: application/json
+Não há rotas de listagem, busca, atualização ou exclusão de receitas.
 
-{
-"valor": 45.90,
-"descricao": "Almoço",
-"dataInicial": "2026-11-12",
-"dataFinal": "2026-11-12",
-"usuarioId": 1,
-"categoriaEnum": "ALIMENTACAO"
-}
-Categorias
+## Regras e limitações conhecidas
 
-O CategoriaController existe, mas ainda não expõe endpoints.
+- O cadastro de usuário verifica e-mail duplicado e senha não vazia.
+- O login compara a senha recebida diretamente com a senha armazenada; não use
+  este fluxo como autenticação segura em produção.
+- O service de despesas valida a existência do usuário ao criar/listar/calcular
+  o total; na atualização também valida ID, existência da despesa e valor
+  positivo.
+- A remoção de despesa recebe a entidade no corpo, em vez de um ID na rota.
+- Listagem e busca de despesas retornam entidades diretamente, enquanto
+  criação/atualização usam DTOs.
+- Algumas exceções ignoram a mensagem recebida no construtor, devolvendo uma
+  mensagem genérica.
+- `SecurityConfig` existe, mas não configura Spring Security.
+- Não há testes específicos dos services, repositories ou endpoints.
 
-Tratamento de erros
+## Tratamento de erros
 
-As exceções de negócio são convertidas em respostas HTTP pelo GlobalExceptionHandler. O corpo da resposta é a mensagem de erro em texto.
+`GlobalExceptionHandler` converte as seguintes exceções em respostas HTTP:
 
-Exceção	Status	Quando acontece
-UsuarioJaExisteException	409 Conflict	Email já cadastrado
-UsuarioNaoEncontradoException	404 Not Found	Usuário não existe
-SenhaIncorretaException	401 Unauthorized	Senha não confere no login
-CategoriaNaoExisteException	400 Bad Request	Categoria inválida
-DespesaNaoEncontradaException	404 Not Found	Despesa não existe
-Como executar
-Pré-requisitos
-JDK instalado (use a versão definida no pom.xml)
-Maven
-PostgreSQL
-Passo a passo
-Clone o repositório
-bash
-git clone https://github.com/samisantts/SistemaDeControleFinanceiro-.git
-cd SistemaDeControleFinanceiro-
-Crie o banco de dados no PostgreSQL:
-sql
-CREATE DATABASE financeiro;
-Crie o arquivo src/main/resources/application.yml com a sua configuração local. Ele não vai para o repositório (está no .gitignore) porque contém a senha do banco:
-yaml
-spring:
-datasource:
-url: jdbc:postgresql://localhost:5432/financeiro
-username: SEU_USUARIO
-password: SUA_SENHA
-jpa:
-hibernate:
-ddl-auto: update
+| Exceção | Status |
+|---|---|
+| `UsuarioJaExisteException` | `409 Conflict` |
+| `UsuarioNaoEncontradoException` | `404 Not Found` |
+| `SenhaIncorretaException` | `401 Unauthorized` |
+| `DespesaNaoEncontradaException` | `404 Not Found` |
+| `IdNaoExisteException` | `400 Bad Request` |
 
-Com ddl-auto: update, o Hibernate cria e atualiza as tabelas automaticamente.
+`ResponseStatusException` também é usada pelo service de despesas para erros
+de requisição.
 
-Execute a aplicação
-bash
-mvn spring-boot:run
+## Executar e testar
 
-Por padrão, a API sobe em http://localhost:8080.
+Requisitos: JDK compatível com Java 21, Maven e PostgreSQL.
 
-Teste os endpoints com o Postman (ou outro cliente HTTP) e confira os dados no pgAdmin.
-Estado atual
+1. Configure a conexão e as credenciais do PostgreSQL no arquivo de
+   configuração local da aplicação. Não publique credenciais no repositório.
+2. Na raiz do projeto, inicie a aplicação:
 
-Funcionando
+   ```bash
+   mvn spring-boot:run
+   ```
 
-Cadastro de usuário com validação de email duplicado e DTOs (a resposta não devolve a senha)
-Atualização, busca por id, exclusão e login de usuário
-Estrutura do módulo de despesas (entidade, repository, service e controller)
-Tratamento centralizado de exceções
-Enum de categorias aplicado na despesa
+3. Execute os testes:
 
-Limitações conhecidas
+   ```bash
+   mvn test
+   ```
 
-A senha ainda é salva e comparada em texto puro (sem criptografia)
-atualizar, login e buscar ainda devolvem a entidade Usuario completa, incluindo a senha
-Não há autenticação nem autorização: os endpoints são abertos
-CategoriaController sem endpoints; DespesaMapper e FormaPagamentoEnum vazios
-<<<<<<< HEAD
-Nomes de rotas inconsistentes (/Despesas com maiúscula, DELETE de despesa recebendo o objeto no corpo)
-=======
-Nomes de rotas inconsistentes (/Despesas com maiúscula, DELETE de despesa recebendo o objeto no corpo)
->>>>>>> 59bc937952c31fb574b48842995a6aeae79bbc8f
+O único teste existente atualmente verifica o carregamento do contexto Spring.
+
+## Próximos passos sugeridos
+
+1. Implementar hash de senhas com BCrypt e configurar autenticação/autorização.
+2. Definir e implementar a regra automática de status de pagamento baseada em
+   `dataVencimento`.
+3. Completar e testar o fluxo de receitas, incluindo o ID do usuário no request
+   e o mapeamento da resposta.
+4. Padronizar rotas e respostas, especialmente remoção de despesas e retorno
+   por DTO na busca/listagem.
+5. Adicionar testes unitários e de integração para as regras de negócio.
+6. Projetar e implementar o módulo de orçamento.
