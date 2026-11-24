@@ -33,5 +33,4 @@ public class ReceitaController {
 
         return receitaMapper.toResponse(salvar);
     }
-
 }

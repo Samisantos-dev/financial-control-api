@@ -56,6 +56,11 @@ public class DespesaController {
         return despesaService.listarDespesas(usuarioId);
     }
 
+    @GetMapping("/usuarios/{usuarioId}/total")
+    public BigDecimal calcularTotalDespesas(@PathVariable Long usuarioId) {
+        return despesaService.calcularTotalDespesas(usuarioId);
+    }
+
     @GetMapping("/despesas/{id}")
     public Despesa buscarDespesaPorId(@PathVariable Long id) {
         return despesaService.buscarPorId(id);

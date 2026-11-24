@@ -7,12 +7,13 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.math.BigDecimal;
-import java.time.LocalDate;
 import java.util.List;
 
 @Repository
 public interface DespesaRepository extends JpaRepository<Despesa, Long> {
 
     List<Despesa> findByUsuarioId(Long usuarioId);
-    List<Despesa> findByUsuarioIdAndDataBetween(Long usuarioId, LocalDate inicio, LocalDate fim);
+
+    @Query("SELECT COALESCE(SUM(d.valor), 0) FROM Despesa d WHERE d.usuario.id = :usuarioId")
+    BigDecimal somarValoresPorUsuarioId(@Param("usuarioId") Long usuarioId);
 }

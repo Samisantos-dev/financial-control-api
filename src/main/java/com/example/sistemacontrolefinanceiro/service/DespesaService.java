@@ -68,6 +68,12 @@ public class DespesaService {
         return despesaRepository.findByUsuarioId(usuarioId);
     }
 
+    public BigDecimal calcularTotalDespesas(Long usuarioId) {
+        usuarioService.listarUsuarioPorId(usuarioId);
+        return despesaRepository.somarValoresPorUsuarioId(usuarioId);
+
+    }
+
     public Despesa buscarPorId(Long id) {
         boolean despesaExiste = despesaRepository.existsById(id);
         if (!despesaExiste) {
