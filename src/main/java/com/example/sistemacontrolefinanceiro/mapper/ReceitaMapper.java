@@ -13,13 +13,12 @@ public class ReceitaMapper {
     // Entrada: converte o DTO recebido da entidade
     public Receita toEntity(ReceitaRequestDTO dto) {
         Receita receita = new Receita();
-        receita.setId(dto.getId());
         receita.setDescricao(dto.getDescricao());
         receita.setValor(dto.getValor());
         receita.setData(dto.getData());
 
         Usuario usuario = new Usuario();
-        usuario.setId(dto.getId());
+        usuario.setId(dto.getUsuarioId());
         receita.setUsuario(usuario);
 
         return receita;
@@ -29,10 +28,10 @@ public class ReceitaMapper {
     public ReceitaResponseDTO toResponse (Receita receita) {
         ReceitaResponseDTO resposta = new ReceitaResponseDTO();
 
-        receita.setData(receita.getData());
-        receita.setDescricao(receita.getDescricao());
-        receita.setValor(receita.getValor());
-
+        resposta.setId(receita.getId());
+        resposta.setData(receita.getData());
+        resposta.setDescricao(receita.getDescricao());
+        resposta.setValor(receita.getValor());
 
         return resposta;
     }

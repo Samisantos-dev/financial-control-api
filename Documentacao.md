@@ -234,9 +234,15 @@ configuração do servidor e devem ser chamadas exatamente como declaradas.
 | `GET` | `/Despesas/usuarios/{usuarioId}/total` | Somar despesas do usuário |
 | `GET` | `/Despesas/despesas/{id}` | Buscar despesa por ID |
 
-O total é retornado como `BigDecimal`. A consulta JPQL usa `SUM` e `COALESCE`,
-retornando zero quando o usuário não tem despesas. O service também verifica
-se o usuário existe.
+O endpoint do total recebe `usuarioId` pela URL e retorna o total como
+`BigDecimal`. A consulta JPQL usa `SUM` e `COALESCE`, retornando zero quando o
+usuário não tem despesas. O service também verifica se o usuário existe.
+
+Exemplo de resposta JSON:
+
+```text
+125.50
+```
 
 Exemplo de corpo para criar ou atualizar despesa:
 

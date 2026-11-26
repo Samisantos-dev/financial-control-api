@@ -42,7 +42,6 @@ public class UsuarioController {
     @PutMapping("/atualizar/{id}")
     public UsuarioResponseDTO atualizarUsuario(@PathVariable Long id,
             @Validated(UsuarioRequestDTO.CadastroOuAtualizacao.class) @RequestBody UsuarioRequestDTO dto) {
-
         Usuario usuario = usuarioMapper.toEntity(dto);
         usuario.setId(id);
         //Essa linha coloca o ID recebido da URL dentro do objeto Usuario.

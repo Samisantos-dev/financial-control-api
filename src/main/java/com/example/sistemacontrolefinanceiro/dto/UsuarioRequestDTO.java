@@ -3,6 +3,7 @@ package com.example.sistemacontrolefinanceiro.dto;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
 import jakarta.validation.groups.Default;
 import lombok.Getter;
 import lombok.Setter;
@@ -22,6 +23,7 @@ public class UsuarioRequestDTO {
 
     @NotNull
     @NotBlank
+    @Size(min = 8, message = "A senha deve ter no mínimo 8 caracteres")
     private String senha;
 
     public interface CadastroOuAtualizacao extends Default {

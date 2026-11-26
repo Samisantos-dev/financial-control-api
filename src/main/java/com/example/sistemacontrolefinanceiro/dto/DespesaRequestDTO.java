@@ -6,6 +6,7 @@ import com.example.sistemacontrolefinanceiro.enums.StatusPagamentoEnum;
 import jakarta.validation.constraints.DecimalMin;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Positive;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -37,6 +38,7 @@ public class DespesaRequestDTO {
     private StatusPagamentoEnum statusPagamentoEnum;
 
     @NotNull
+    @Positive
     private Long usuarioId;   // novo
 
 }

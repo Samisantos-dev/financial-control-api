@@ -20,5 +20,5 @@ public class DespesaResponseDTO {
     private CategoriaEnum categoriaEnum;
     private FormaPagamentoEnum formaPagamentoEnum;
     private StatusPagamentoEnum statusPagamentoEnum;
-    private long id;
+    private Long id;
 }

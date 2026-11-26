@@ -25,7 +25,7 @@ public class DespesaController {
     private final DespesaService despesaService;
     private final DespesaMapper despesaMapper;
 
-    public DespesaController(DespesaService despesaService ,  DespesaMapper despesaMapper) {
+    public DespesaController(DespesaService despesaService, DespesaMapper despesaMapper) {
         this.despesaService = despesaService;
         this.despesaMapper = despesaMapper;
     }
@@ -33,10 +33,11 @@ public class DespesaController {
     @PostMapping("/salvar")
     public DespesaResponseDTO salvar(@Valid @RequestBody DespesaRequestDTO dto) {
         Despesa despesa = despesaMapper.toEntity(dto);
-        Despesa salvo = despesaService.salvarDespesa( despesa );
+        Despesa salvo = despesaService.salvarDespesa(despesa);
         return despesaMapper.toResponse(salvo);
 
     }
+
     @PutMapping("/atualizar/{id}")
     public DespesaResponseDTO atualizar(@PathVariable Long id, @Valid @RequestBody DespesaRequestDTO dto) {
         Despesa despesa = despesaMapper.toEntity(dto);
@@ -45,10 +46,6 @@ public class DespesaController {
         Despesa atualizada = despesaService.atualizarDespesa(despesa);
 
         return despesaMapper.toResponse(atualizada);
-    }
-    @DeleteMapping("/remover")
-    public void remover(@RequestBody Despesa despesa) {
-        despesaService.remover(despesa);
     }
 
     @GetMapping("/usuarios/{usuarioId}/")
@@ -65,5 +62,9 @@ public class DespesaController {
     public Despesa buscarDespesaPorId(@PathVariable Long id) {
         return despesaService.buscarPorId(id);
     }
-}
 
+    @DeleteMapping("/remover")
+    public void remover(@RequestBody Despesa despesa) {
+        despesaService.remover(despesa);
+    }
+}

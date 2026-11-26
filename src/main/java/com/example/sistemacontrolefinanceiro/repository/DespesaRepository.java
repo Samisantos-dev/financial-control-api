@@ -14,6 +14,7 @@ public interface DespesaRepository extends JpaRepository<Despesa, Long> {
 
     List<Despesa> findByUsuarioId(Long usuarioId);
 
+    // Soma as despesas do usuário; COALESCE retorna zero quando não há despesas.
     @Query("SELECT COALESCE(SUM(d.valor), 0) FROM Despesa d WHERE d.usuario.id = :usuarioId")
     BigDecimal somarValoresPorUsuarioId(@Param("usuarioId") Long usuarioId);
 }

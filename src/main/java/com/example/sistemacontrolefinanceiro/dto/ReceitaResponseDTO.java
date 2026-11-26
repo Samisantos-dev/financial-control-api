@@ -10,6 +10,7 @@ import java.time.LocalDate;
 @Setter
 public class ReceitaResponseDTO {
 
+    private Long id;
     private String descricao;
     private BigDecimal valor;
     private LocalDate data;

@@ -6,6 +6,7 @@ import com.example.sistemacontrolefinanceiro.dto.ReceitaResponseDTO;
 import com.example.sistemacontrolefinanceiro.mapper.ReceitaMapper;
 import com.example.sistemacontrolefinanceiro.model.Receita;
 import com.example.sistemacontrolefinanceiro.service.ReceitaService;
+import jakarta.validation.Valid;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -27,7 +28,7 @@ public class ReceitaController {
     }
 
     @PostMapping ("/salvar")
-    public ReceitaResponseDTO cadastrarReceita(@RequestBody ReceitaRequestDTO dto){
+    public ReceitaResponseDTO cadastrarReceita(@Valid @RequestBody ReceitaRequestDTO dto){
         Receita receita = receitaMapper.toEntity(dto);
         Receita salvar = receitaService.cadastrarReceita(receita);
 

@@ -1,12 +1,29 @@
 package com.example.sistemacontrolefinanceiro.exception;
 
+import org.springframework.validation.FieldError;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
+import java.util.stream.Collectors;
+
     @RestControllerAdvice
     public class GlobalExceptionHandler {
+
+        @ExceptionHandler(MethodArgumentNotValidException.class)
+        public ResponseEntity<String> tratarDadosInvalidos(MethodArgumentNotValidException e) {
+            String mensagens = e.getBindingResult().getFieldErrors().stream()
+                    .map(this::formatarErroDeCampo)
+                    .collect(Collectors.joining("; "));
+
+            return ResponseEntity.badRequest().body(mensagens);
+        }
+
+        private String formatarErroDeCampo(FieldError erro) {
+            return erro.getField() + ": " + erro.getDefaultMessage();
+        }
 
         @ExceptionHandler(UsuarioJaExisteException.class)
         public ResponseEntity<String> tratarUsuarioJaExiste(UsuarioJaExisteException e) {

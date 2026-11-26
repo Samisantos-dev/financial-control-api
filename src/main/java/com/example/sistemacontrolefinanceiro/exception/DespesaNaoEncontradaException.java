@@ -10,3 +10,4 @@ public class DespesaNaoEncontradaException extends RuntimeException {
         super("Despesa nao encontrada" );
     }
 }
+
