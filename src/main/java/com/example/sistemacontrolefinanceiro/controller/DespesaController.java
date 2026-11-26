@@ -2,13 +2,10 @@ package com.example.sistemacontrolefinanceiro.controller;
 
 import com.example.sistemacontrolefinanceiro.dto.DespesaRequestDTO;
 import com.example.sistemacontrolefinanceiro.dto.DespesaResponseDTO;
-import com.example.sistemacontrolefinanceiro.dto.UsuarioRequestDTO;
-import com.example.sistemacontrolefinanceiro.dto.UsuarioResponseDTO;
 import com.example.sistemacontrolefinanceiro.mapper.DespesaMapper;
 import com.example.sistemacontrolefinanceiro.model.Despesa;
 import com.example.sistemacontrolefinanceiro.service.DespesaService;
 import jakarta.validation.Valid;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.math.BigDecimal;

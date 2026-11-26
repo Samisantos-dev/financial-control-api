@@ -9,13 +9,9 @@ import jakarta.validation.Valid;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
-
-// Controller: recebe as requisições HTTP e devolve as respostas.
-// Não tem regra de negócio, só repassa o trabalho para o service.
-
+// Controlador responsável por receber as requisições HTTP e delegar as operações ao serviço.
 @RestController
 @RequestMapping("/usuarios")
-
 public class UsuarioController {
 
     private final UsuarioService usuarioService;
@@ -26,8 +22,6 @@ public class UsuarioController {
         this.usuarioMapper = usuarioMapper;
     }
 
-    // POST /usuarios/cadastrar
-    //Controle de saida e entrada de dados
     @PostMapping("/cadastrar")
     public UsuarioResponseDTO cadastrarUsuario(
             @Validated(UsuarioRequestDTO.CadastroOuAtualizacao.class) @RequestBody UsuarioRequestDTO dto) {
@@ -37,21 +31,17 @@ public class UsuarioController {
         return usuarioMapper.toResponse(salvo);
     }
 
-    // PUT /usuarios/atualizar
-    //Controle de saida e entrada de dados
     @PutMapping("/atualizar/{id}")
     public UsuarioResponseDTO atualizarUsuario(@PathVariable Long id,
             @Validated(UsuarioRequestDTO.CadastroOuAtualizacao.class) @RequestBody UsuarioRequestDTO dto) {
         Usuario usuario = usuarioMapper.toEntity(dto);
         usuario.setId(id);
-        //Essa linha coloca o ID recebido da URL dentro do objeto Usuario.
 
         Usuario atualizado = usuarioService.atualizarUsuario(id, usuario);
 
         return usuarioMapper.toResponse(atualizado);
     }
-    // POST /usuarios/login
-    //Controle de saida e entrada de dados
+
     @PostMapping("/login")
     public UsuarioResponseDTO loginUsuario(@Valid @RequestBody UsuarioRequestDTO dto) {
         Usuario usuario = usuarioMapper.toEntity(dto);
@@ -60,15 +50,12 @@ public class UsuarioController {
         return usuarioMapper.toResponse(login);
     }
 
-    // GET /usuarios/buscar/{id}
-    //Controle de saida e entrada de dados
     @GetMapping("/{id}")
     public UsuarioResponseDTO buscarUsuarioPorId(@PathVariable Long id) {
         Usuario usuario = usuarioService.listarUsuarioPorId(id);
         return usuarioMapper.toResponse(usuario);
     }
 
-    // DELETE /usuarios/deletar/{id}\
     @DeleteMapping("/deletar/{id}")
     public void deletarUsuario(@PathVariable Long id) {
         usuarioService.deletarUsuario(id);

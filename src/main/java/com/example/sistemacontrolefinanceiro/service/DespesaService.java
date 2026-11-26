@@ -1,6 +1,5 @@
 package com.example.sistemacontrolefinanceiro.service;
 
-import com.example.sistemacontrolefinanceiro.exception.DespesaNaoEncontradaException;
 import com.example.sistemacontrolefinanceiro.enums.StatusPagamentoEnum;
 import com.example.sistemacontrolefinanceiro.model.Despesa;
 import com.example.sistemacontrolefinanceiro.repository.DespesaRepository;
