@@ -7,10 +7,7 @@ import com.example.sistemacontrolefinanceiro.mapper.ReceitaMapper;
 import com.example.sistemacontrolefinanceiro.model.Receita;
 import com.example.sistemacontrolefinanceiro.service.ReceitaService;
 import jakarta.validation.Valid;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 // Controller: recebe as requisições HTTP e devolve as respostas.
 // Não tem regra de negócio, só repassa o trabalho para o Categoria.
@@ -33,5 +30,10 @@ public class ReceitaController {
         Receita salvar = receitaService.cadastrarReceita(receita);
 
         return receitaMapper.toResponse(salvar);
+    }
+
+    @DeleteMapping("/deletar/{id}")
+    public void deletarReceita(@PathVariable Long id) {
+        receitaService.deletarReceita(id);
     }
 }

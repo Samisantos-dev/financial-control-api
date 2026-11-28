@@ -1,0 +1,135 @@
+*   [33mff5b0c6[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mmain[m[33m)[m Merge main remota na desenvolvimento
+[31m|[m[32m\[m  
+[31m|[m * [33m5fa0139[m[33m ([m[1;31morigin/main[m[33m)[m Update README.md
+[31m|[m * [33mbea656c[m Initial commit
+[31m|[m * [33m60a31c5[m[33m ([m[1;31morigin/desenvolvimento[m[33m, [m[1;32mdesenvolvimento[m[33m)[m subir projeto incompleto para a main
+[31m|[m * [33mc0973b9[m test: cria testes automatizados para operações de usuário
+[31m|[m * [33m7721bbd[m  feat: validar tamanho mínimo da senha e tratar erros de validação
+[31m|[m * [33mc9c41e7[m feat:feat(despesa): calcular status de pagamento pelo vencimento 
+[31m|[m * [33m67800ab[m docs: atualizar documentacao completa do projeto
+[31m|[m * [33m76a8be2[m feat: feat(despesa): expor total de despesas por usuário
+[31m|[m * [33mebced1c[m  fix(despesa): validar dados e corrigir atualização 
+[31m|[m * [33m00d8abd[m Update README.md
+[31m|[m * [33md3a5e59[m[33m ([m[1;31mgithub-antigo/desenvolvimento[m[33m)[m feat: Adicionar Classes ReceitaRequestDTO e ReceitaResponseDTO
+[31m|[m * [33m8ad4337[m fix: corrige usuario nulo ao salvar despesa (DTO com usuarioId e mapper)
+[31m|[m * [33m8858d41[m feat: implementar DespesaMapper
+[31m|[m * [33m9f0aef7[m feat: implementar atributos de saida dentro do DespesaResponseDTO
+[31m|[m * [33m22111bc[m feat: implementar  atributos dentro do DespesaRequestDTO
+[31m|[m * [33mac733d2[m feat: criar exception para usuário não encontrado pelo ID
+[31m|[m * [33m459a8c9[m fix: corrigir atualização de usuário por ID
+[31m|[m * [33m3d46e78[m refact: ajustar mapeamento da entidade Categoria
+[31m|[m * [33m27aac1d[m feat: associar CategoriaEnum a entidade Categoria
+[31m|[m * [33me1d2113[m refact: ajustar método listDespesas no DespesaRepository
+[31m|[m * [33maf12188[m feat: Adiciona Classe CategoriaMapper
+[31m|[m * [33m1786356[m feat: Adiciona ClasseResponseDTO
+[31m|[m * [33md26ba6e[m feat: Adiciona Classe DespesaRequestDTO
+[31m|[m * [33mf03bb45[m feat: implementar endpoint POST para cadastro de categoria
+[31m|[m * [33me7e43e4[m feat: implementar endpoint para cadastro de categoria
+[31m|[m * [33m85298b8[m Refact: Retirar CategoriaEnum Passando por um construtor no CategoriaSevice
+[31m|[m [33m|[m * [33m009e02c[m[33m ([m[1;32mbackup-desenvolvimento[m[33m)[m feat: criar endpoint POST para cadastro direto de categoria
+[31m|[m [33m|[m[33m/[m  
+[31m|[m *   [33m429f9db[m feat: usa UsuarioRequestDTO e UsuarioResponseDTO nos endpoints de usuário
+[31m|[m [35m|[m[36m\[m  
+[31m|[m [35m|[m * [33m59bc937[m Update documentation structure for project files
+[31m|[m [35m|[m * [33m26febe1[m Documentacao
+[31m|[m * [36m|[m [33mb6efa7f[m feat: usa UsuarioRequestDTO e UsuarioResponseDTO nos endpoints de usuário
+[31m|[m [36m|[m[36m/[m  
+[31m|[m * [33m91fe747[m Refact: Documentacao
+[31m|[m * [33m1d83c5e[m Adiciona Classe Enum StatusPagamentoEnum
+[31m|[m * [33m64c5368[m feat: Implementar Tratamento de erro Despesa Nao Encontrada
+[31m|[m * [33m81116ff[m feat: Adicionar Verificacao de usuario
+[31m|[m * [33mfa6904b[m feat: implementar tratamento de excecoes personalizadas
+[31m|[m * [33m8670c92[m feat: implementar validacao de categoria com Enum
+[31m|[m * [33m602066d[m refactor: substituir relacionamento Categoria por CategoriaEnum
+[31m|[m * [33m83ddbec[m feat: implementar enum de categorias
+[31m|[m * [33m13c76e8[m feat: estabelecer relacionamento entre Categoria e Usuario
+[31m|[m * [33m707d220[m feat: Adiciona Classe CategoriaEnum
+[31m|[m * [33m59b7cd7[m feat: implementar tratamento global de excecoes
+[31m|[m * [33m6ceb964[m fix: validar senha no cadastro de usuario
+[31m|[m * [33m88dcdb2[m feat: adicionar injecao de dependencia no CategoriaController
+[31m|[m *   [33m4a3e4b6[m feat: Adiciona classe exception CategoriaNaoExiste
+[31m|[m [1;31m|[m[1;32m\[m  
+[31m|[m [1;31m|[m * [33m73c8f3c[m Create README.md for financial control system
+[31m|[m * [1;32m|[m [33mf689dc0[m feat: Adicionar classe Exception CategoriaNaoExiste
+[31m|[m [1;32m|[m[1;32m/[m  
+[31m|[m * [33m4952ba4[m fix: Corrige validação de credenciais no login
+[31m|[m * [33m00a84ba[m fix: Corrige erro ao cadastrar usuário
+[31m|[m * [33mdd30707[m feat: adiciona integração entre DTO, mapper e service no cadastro de usuário
+[31m|[m * [33maa4138f[m Refact: Refact Documentacao na raiz do projeto
+[31m|[m * [33m4606bec[m Documentacao
+[31m|[m * [33m1aff751[m Refact:refact classe UsuarioMapper
+[31m|[m * [33m70202b9[m feat: Adiciona Saida de usuario dto
+[31m|[m * [33m0464e71[m feat: Adiciona Usuario de entrada dto
+[31m|[m * [33m9faf073[m feat: adiciona CategoriaController
+[31m|[m * [33mdb8852b[m feat: adiciona UsuarioService aos serviços de categoria e despesa
+[31m|[m * [33m10bb1b9[m feat: Adicionar Classe DespesaNaoEncontradaException
+[31m|[m * [33mea05165[m refact: refatora tratamento de exceções de usuário
+[31m|[m * [33mf4fe6c6[m feat: Adicionar Classe DespesaJaExisteExeption
+[31m|[m * [33m5ed59b8[m fix: corrige entidades Despesa e Categoria e consulta por dataInicial
+[31m|[m * [33m8102190[m feat: Adicionar CategoriaServic
+[31m|[m * [33me9a228f[m feat: adiciona relacionamentos entre despesa, categoria e usuário
+[31m|[m * [33mf440b42[m refactor: ajusta atributos da classe Despesa
+[31m|[m * [33m9573ef7[m Criado a classe SecurityConfig
+[31m|[m * [33mbf6784d[m refactor: Organiza pacotes e adiciona exceção de usuário
+[31m|[m * [33m52d46f8[m refactor: Organiza pacotes dos mappers
+[31m|[m * [33m764c3d6[m refact: Refatorei a classe UsuarioController
+[31m|[m * [33me1a42f1[m feat: Adicionar Classe DespesaMapper
+[31m|[m * [33m1f54821[m feat: Adcionar Classe UsuarioMapper
+[31m|[m * [33m601d35e[m refactor: remove static do cadastrarUsuario e corrige chamada no controller
+[31m|[m * [33m089b95d[m feat: Classe Categoria Criada
+[31m|[m * [33m9ba0b1c[m feat: cria DTOs de usuario e usa no POST /usuarios
+[31m|[m * [33m38ec2ae[m feat: Classe UsuarioResponseDTO
+[31m|[m * [33m7d93ef6[m feat: Classe UsuarioRequestDTO
+[31m|[m [1;32m|[m * [33me4a42a1[m[33m ([m[1;31mgithub-antigo/main[m[33m, [m[1;31mgithub-antigo/HEAD[m[33m)[m Update README.md
+[31m|[m [1;32m|[m[31m/[m  
+[31m|[m[31m/[m[1;32m|[m   
+* [1;32m|[m [33mffa45e3[m merge: integra desenvolvimento na main
+[1;34m|[m[1;32m\[m[1;32m|[m 
+[1;34m|[m * [33mbe009b7[m feat: Alteracao entre metodos
+[1;34m|[m * [33mfbb3dcf[m refactor: remove atributo descricao da classe Despesa
+[1;34m|[m * [33m6c058a4[m refactor: valida usuário antes do valor em salvarDespesa
+[1;34m|[m * [33m6e64ec0[m feat: adiciona endpoint DELETE /despesas no DespesaController
+[1;34m|[m * [33mc2e1325[m feat: adiciona endpoint PUT /despesas no DespesaController
+[1;34m|[m * [33m1a735f4[m feat: adiciona endpoint POST /despesas no DespesaController
+[1;34m|[m * [33md33f4ef[m feat: Passando o DespesaService como objeto pelo DespesaController
+[1;34m|[m * [33mf435cd1[m feat: funcao para  Listar Despesas do usuario
+[1;34m|[m * [33md3bfcd2[m funcao salvarDespesa:adiciona verificacao de usuario
+[1;34m|[m * [33mc418b70[m refactor: retorna status HTTP corretos nos erros do DespesaService
+[1;34m|[m * [33m1907f13[m refactor: retorna status HTTP corretos nos erros do UsuarioService
+[1;34m|[m * [33m4396cb3[m feat: valida valor maior que zero ao salvar despesa
+[1;34m|[m * [33m40280e3[m feat: Adicionar metodo Remover Despesas
+[1;34m|[m * [33m586c1fe[m feat: adiciona atualizar despesa com verificação de usuário existente
+[1;34m|[m * [33mfaf4569[m feat: adiciona salvar despesa com verificação de usuário existente
+[1;34m|[m * [33mbf1bf93[m feat: adiciona método para salvar despesas do usuário
+[1;34m|[m * [33m9aab52c[m feat: injeta DespesaRepository no DespesaService via construtor
+[1;34m|[m * [33m81aa02f[m feat: Pacote model importado
+[1;34m|[m * [33m1fc10a1[m remove dialect do PostgreSQL (Hibernate detecta automaticamente)
+[1;34m|[m * [33me6f203a[m usa variavel de ambiente para senha do banco
+[1;34m|[m * [33m0b81f3e[m feat: adiciona construtores via anotações Lombok e encapsulamento
+[1;34m|[m * [33m34be66e[m feat: Classe DespesasController adicionada
+[1;34m|[m * [33m1ac90ca[m feat: Classe Despesas Criada
+[1;34m|[m * [33m5c7b29c[m feat: Interface DespesasRepository criada
+[1;34m|[m * [33mb52357b[m feat: classe DespesasService Criada
+[1;34m|[m * [33m9546c71[m feat: Classe DespesasService
+[1;34m|[m * [33m875e632[m feat: adiciona endpoint GET /usuarios/{id} no UsuarioController
+[1;34m|[m * [33m91cb5e8[m feat; Metodo para listar UsuarioPorId adicinada
+[1;34m|[m * [33m51e4e0f[m feat: Adicionar e configurar banco de dados
+[1;34m|[m * [33mcfb614f[m fix: corrige anotações e tipos nos endpoints do UsuarioController
+[1;34m|[m * [33m006911a[m feat: adiciona endpoint de login (POST /loginusuario)
+[1;34m|[m * [33md5956a1[m feat: metodo de login efetuado
+[1;34m|[m * [33mf2b79b4[m feat: diciona endpoint PUT /usuarios no UsuarioController
+[1;34m|[m * [33m3e230b9[m feat: adiciona endpoint POST /usuarios no UsuarioController
+[1;34m|[m * [33m8722197[m feat: metodo de injecao dentro do UsuarioController
+[1;34m|[m * [33m8a66649[m feat: Adicionar metodo para Usuario fazer Login
+[1;34m|[m * [33m32904f2[m feat: adiciona deletarUsuario com verificação de id existente
+[1;34m|[m * [33m73d7961[m feat; Adicionar deletarUsuario
+[1;34m|[m * [33mb1ded09[m fix: corrige validações do atualizarUsuario (email duplicado e id inexistente)
+[1;34m|[m * [33m2bae23e[m feat: adiciona interface e  atualizarUsuario com verificação de email duplicado
+[1;34m|[m * [33m02f9076[m feat: configura conexão com PostgreSQL via variáveis de ambiente
+[1;34m|[m * [33m6280d61[m refactor: remove else temporário do cadastrarUsuario
+[1;34m|[m * [33mc782913[m feat(usuario): valida email único ao cadastrar usuário
+[1;34m|[m * [33md5c1082[m feat: Classe UsuarioService Adicionada
+[1;34m|[m * [33m259dbbb[m feat: adicionar  Classe Usuario
+* [1;35m|[m [33m27e8a64[m Create README.md with project overview and setup
+[1;35m|[m[1;35m/[m  
+* [33md3b439e[m Commit inicial
