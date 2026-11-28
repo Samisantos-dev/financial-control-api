@@ -14,7 +14,8 @@ PostgreSQL.
   controller de categorias.
 - **Segurança:** `SecurityConfig` está vazio. Login compara senhas em texto
   puro; ainda não há autenticação/autorização com Spring Security nem BCrypt.
-- **Testes:** há apenas um teste de contexto (`contextLoads`).
+- **Testes:** há testes de contexto, unitários do controller de usuários,
+  requisições HTTP com MockMvc e validação/tratamento de erros.
 - **Pagamento de despesas:** a entidade e os DTOs incluem forma, status e data
   de vencimento. O `DespesaService` preserva `PAGO`; para os demais status,
   calcula `PENDENTE` ou `ATRASADO` conforme a data de vencimento.
@@ -111,7 +112,12 @@ src/main/java/com/example/sistemacontrolefinanceiro/
 └── SistemacontrolefinanceiroApplication.java
 
 src/test/java/com/example/sistemacontrolefinanceiro/
-└── SistemacontrolefinanceiroApplicationTests.java
+├── SistemacontrolefinanceiroApplicationTests.java
+├── controller/
+│   ├── UsuarioControllerTest.java
+│   └── UsuarioControllerRequestTest.java
+└── exception/
+    └── GlobalExceptionHandlerTest.java
 ```
 
 ## Modelo de dados
@@ -289,7 +295,7 @@ Não há rotas de listagem, busca, atualização ou exclusão de receitas.
 - Algumas exceções ignoram a mensagem recebida no construtor, devolvendo uma
   mensagem genérica.
 - `SecurityConfig` existe, mas não configura Spring Security.
-- Não há testes específicos dos services, repositories ou endpoints.
+- Não há testes específicos dos services ou repositories.
 
 ## Tratamento de erros
 
@@ -306,25 +312,51 @@ Não há rotas de listagem, busca, atualização ou exclusão de receitas.
 `ResponseStatusException` também é usada pelo service de despesas para erros
 de requisição.
 
-## Executar e testar
+## Testes automatizados
 
-Requisitos: JDK compatível com Java 21, Maven e PostgreSQL.
+Os testes ficam em `src/test/java`, seguindo a estrutura padrão do Maven. Os
+testes do controller usam mocks para `UsuarioService` e `UsuarioMapper`, então
+não acessam o banco de dados.
 
-1. Configure a conexão e as credenciais do PostgreSQL no arquivo de
-   configuração local da aplicação. Não publique credenciais no repositório.
-2. Na raiz do projeto, inicie a aplicação:
+### `UsuarioControllerRequestTest`
 
-   ```bash
-   mvn spring-boot:run
-   ```
+Usa Spring MockMvc para exercitar requisições HTTP sem iniciar um servidor.
+Verifica o status e os campos das respostas, além da chamada correspondente ao
+service:
 
-3. Execute os testes:
+- `POST /usuarios/cadastrar`: cadastro bem-sucedido e rejeição de dados inválidos.
+- `PUT /usuarios/atualizar/{id}`: atualização bem-sucedida.
+- `POST /usuarios/login`: login bem-sucedido e rejeição de senha curta.
+- `GET /usuarios/{id}`: busca de usuário por ID.
+- `DELETE /usuarios/deletar/{id}`: exclusão do usuário.
 
-   ```bash
-   mvn test
-   ```
+### Outros testes
 
-O único teste existente atualmente verifica o carregamento do contexto Spring.
+- `UsuarioControllerTest`: verifica diretamente a delegação ao service, o
+  mapeamento de DTOs e o ID aplicado na atualização.
+- `GlobalExceptionHandlerTest`: verifica validação de senha e resposta
+  `400 Bad Request` para erros de validação.
+- `SistemacontrolefinanceiroApplicationTests`: verifica o carregamento do
+  contexto da aplicação.
+
+### Executar os testes
+
+É necessário um JDK 21. Na raiz do projeto, execute o Maven Wrapper:
+
+```powershell
+# Windows
+.\mvnw.cmd test
+```
+
+```bash
+# Linux/macOS
+./mvnw test
+```
+
+Os testes do controller não requerem uma conexão PostgreSQL. Nesta execução,
+`.\mvnw.cmd test -q` não completou: o Maven iniciou com Java 8, mas o JUnit
+Platform utilizado requer Java 17 ou superior (class file version 61). Use um
+JDK 21 e confira `java -version` antes de executar a suíte novamente.
 
 ## Próximos passos sugeridos
 
